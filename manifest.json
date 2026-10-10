@@ -1,0 +1,60 @@
+{
+  "manifest_version": "0.3",
+  "name": "mcp-apidesk",
+  "display_name": "API Desk",
+  "version": "0.3.0",
+  "description": "HTTP debugging and regression workbench for coding agents.",
+  "long_description": "API Desk is a local HTTP workbench for coding agents. While an agent writes or modifies HTTP code, API Desk lets it verify the work immediately: send real requests against dev/staging/prod environment profiles, interpolate `{{variables}}`, and pull values like auth tokens out of responses into later requests.\n\nProven requests are saved into a collection — plain JSON, meant to be committed. One command replays every saved request in order, threads captured tokens through the chain, and reports assertion failures with expected vs. actual. A regression suite that grows while you develop, not after.\n\nSecrets live in a local vault and are injected at send time; they never appear in responses, errors, or request previews. No dependencies, no proxying, no telemetry.",
+  "author": {
+    "name": "apidesk"
+  },
+  "license": "MIT",
+  "keywords": [
+    "http",
+    "api",
+    "debug",
+    "testing",
+    "regression",
+    "postman",
+    "insomnia"
+  ],
+  "server": {
+    "type": "node",
+    "entry_point": "server/server.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/server/server.js"],
+      "env": {
+        "APIDESK_HOME": "${HOME}/.apidesk"
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "ping",
+      "description": "Health check: reports the state directory, Node version, and active environment."
+    },
+    {
+      "name": "env",
+      "description": "List or switch environment profiles (host plus per-environment variables)."
+    },
+    {
+      "name": "secret",
+      "description": "Store API keys per environment; list shows key names only, never values."
+    },
+    {
+      "name": "request",
+      "description": "Send an HTTP request with {{variable}} interpolation and response capture, or save a proven request into the collection."
+    },
+    {
+      "name": "collection",
+      "description": "Show the saved collection, or replay every request in order with assertions and report pass/fail."
+    }
+  ],
+  "compatibility": {
+    "platforms": ["darwin", "win32", "linux"],
+    "runtimes": {
+      "node": ">=18.0.0"
+    }
+  }
+}
